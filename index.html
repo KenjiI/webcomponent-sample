@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>webcomponent sample</title>
+  </head>
+  <style type="text/css">
+    h4 {
+      background-color: cadetblue;
+      border-radius: 0.81rem;
+      padding: 0 8px;
+      color: #fff;
+      margin-top: 32px;
+    }
+    .red {
+      --bkcolor: red;
+    }
+    .yellow {
+      --bkcolor: yellow;
+    }
+    .green {
+      --bkcolor: green;
+    }
+  </style>
+  <body>
+    <h3 id="app">WebComponentのサンプル</h3>
+
+    <h4>WebComponent の外からスタイルを指定することができる(直指定ではなく変数経由)</h4>
+    <label>ここでは --bkcolor という値に色を指定し、WebComponent側でそれを利用(var(--bkcolor)) として使っている</label><br>
+    <my-button class="greenMyButton green">button</my-button>
+    <my-button class="red">button</my-button>
+    <my-button class="yellow">button</my-button>
+
+    <h4>属性の変更を検知することができる</h4>
+    <label>緑ボタンのボタン名がここの内容に置き換わる</label><br>
+    <input type="text">
+  
+    <h4>属性の変更を検知することができる</h4>
+    <label>ShadowDomの外にあるものには影響しない(WebComponent内でbuttonに対するスタイルを書いているが、ここには効かない)</label><br>
+    <button>これはWebComponentでないボタン</button>
+    
+    <br>
+    <h4>別のWebcomponent(ul & li)</h4>
+    <label>一覧表示のサンプル。CSSは完全に隠蔽されている。<br>ロード時は空でデータ取得＆データの数だけ表示</label>
+    <my-list></my-list>
+
+    <script src="./webcomponent-example.js"></script> 
+    <script type="text/javascript">
+      const input = document.querySelector("input");
+      input.oninput = e => {
+        document.querySelector(".greenMyButton").setAttribute("label", e.target.value);
+      }
+    </script>
+  </body>
+</html>
