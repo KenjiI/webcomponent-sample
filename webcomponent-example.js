@@ -4,6 +4,10 @@ class MyButton extends HTMLElement {
     console.log('constructor');
 
     // shadowdom を使えるように
+    // mode: closed の場合は、selector などで中の要素をさわれない
+    // shadowmRoot が null でかえる。そのため、webcomponent 自身
+    // の中でも this.shadowRoot.innerHTML と言ったことはできない
+    // shadowdomRoot への参照を保持する必要がある
     this.attachShadow({ mode: "open" });
     // shadowdom のルートにHTMLを設定
     this.shadowRoot.innerHTML = `
@@ -147,10 +151,7 @@ class MyList extends HTMLElement {
   }
 
   static get observedAttributes() {
-    // 監視する属性を設定する
-    // <my-button label="" > みたいな感じで、label の値が変わるとイベントが起きる
-    // -> attributeChangedCallback
-    return [ 'label' ];
+    return [ ];
   }
 
   connectedCallback() {
@@ -165,9 +166,6 @@ class MyList extends HTMLElement {
 
   attributeChangedCallback(attributeName, oldValue, newValue, namespace) {
     console.log(`attributeChangedCallback: ${attributeName}, ${oldValue}, ${newValue}, ${namespace}`);
-    const liElem = document.createElement('li');
-    liElem.value = 'hoge';
-    this.shadowRoot.querySelector("ul").appendChild(liElem);
   }
 
   adoptedCallback(oldDocument, newDocument) {
