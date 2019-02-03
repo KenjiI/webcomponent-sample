@@ -101,6 +101,7 @@ class MyList extends HTMLElement {
       }
       </style>
       <div class="root">
+        値も自由に渡せる: ${this.dataset['key']}
         <table>
           <tr><th>ファイル名</th><th>操作</th></tr>
           <tbody>
