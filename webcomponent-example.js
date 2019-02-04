@@ -175,3 +175,69 @@ class MyList extends HTMLElement {
 }
 
 customElements.define("my-list", MyList);
+
+////////////////////////////////////////////
+
+class MyListWithBulma extends HTMLElement {
+  constructor() {
+    super();
+    console.log('constructor');
+
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `
+      <div class="root">
+        <table class="table is-hoverable is-fullwidth">
+          <tr><th>ファイル名</th><th>操作</th></tr>
+          <tbody>
+          </body>
+        </table>
+      </div>
+    `;
+    const styleElem = document.createElement('link');
+    styleElem.setAttribute('rel', 'stylesheet');
+    styleElem.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css');
+    this.shadowRoot.append(styleElem);
+
+    this.getDataFromExternal().then(fileList => {
+      fileList.forEach(item => {
+        // ラベル表示用の TD
+        const tdLabelElem = document.createElement('td');
+        tdLabelElem.textContent = item.label;
+
+        // アクションボタン用の TD
+        const tdButtonElem = document.createElement('td');
+        const exeButton = document.createElement('a');
+        exeButton.setAttribute('class', 'button is-info');
+        exeButton.textContent = '実行';
+        exeButton.setAttribute('data-id', item.id);
+        exeButton.addEventListener('click', e => {
+          alert(e.target.getAttribute('data-id'));
+        });
+        tdButtonElem.append(exeButton);
+
+        // 1行に連結
+        const trElem = document.createElement('tr');
+        trElem.append(tdLabelElem);
+        trElem.append(tdButtonElem);
+
+        this.shadowRoot.querySelector("tbody").appendChild(trElem);
+      });
+    });
+  }
+
+  getDataFromExternal() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([
+          { id: 'id124', label: 'file name 1', updatedAt: '2019/02/01' },
+          { id: 'id456', label: 'file name 2', updatedAt: '2019/02/01' },
+          { id: 'id456', label: 'file name 3', updatedAt: '2019/02/01' },
+          { id: 'id456', label: 'file name 4', updatedAt: '2019/02/01' },
+          { id: 'id456', label: 'file name 5', updatedAt: '2019/02/01' },
+        ]);
+      }, 500);
+    });
+  }
+}
+
+customElements.define("my-list-with-bulma", MyListWithBulma);

@@ -45,6 +45,13 @@
     <label>一覧表示のサンプル。CSSは完全に隠蔽されている。<br>ロード時は空でデータ取得＆データの数だけ表示</label>
     <my-list data-key="0123456789"></my-list>
 
+    <br>
+    <h4>Webcomponent に CSS ライブラリ追加</h4>
+    <label>同じ一覧表示のサンプル。だが、内部で Bulma を利用。基本動作する。<br>
+      けど html や body がないので、それについているStyleは効かないので注意。rem 指定の部分は対処が必要になる可能性がある。</label>
+    <my-list-with-bulma data-key="0123456789"></my-list-with-bulma>
+
+
     <script src="./webcomponent-example.js"></script> 
     <script type="text/javascript">
       const input = document.querySelector("input");
